@@ -19,3 +19,15 @@ resource "google_dns_record_set" "records" {
   project      = var.project
   rrdatas      = [each.value]
 }
+
+# TXT Records
+resource "google_dns_record_set" "txt_records" {
+  for_each = var.txt_records
+
+  name         = "${each.key}."
+  type         = "TXT"
+  ttl          = 300
+  managed_zone = google_dns_managed_zone.primary.name
+  project      = var.project
+  rrdatas      = [each.value]
+}
