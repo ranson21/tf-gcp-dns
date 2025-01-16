@@ -23,3 +23,9 @@ variable "records" {
   #   "sub.example.com" = "203.0.113.11"
   # }
 }
+
+variable "txt_records" {
+  type        = map(string)
+  description = "Map of TXT records where key is subdomain and value is the TXT record content"
+  default     = {}
+}
