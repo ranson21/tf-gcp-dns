@@ -31,3 +31,14 @@ resource "google_dns_record_set" "txt_records" {
   project      = var.project
   rrdatas      = [each.value]
 }
+
+resource "google_dns_record_set" "mx_records" {
+  for_each = var.mx_records
+
+  name         = "${each.key}."
+  type         = "MX"
+  ttl          = 300
+  managed_zone = google_dns_managed_zone.primary.name
+  project      = var.project
+  rrdatas      = each.value
+}
