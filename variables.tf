@@ -51,3 +51,25 @@ variable "mx_records" {
   #   "example.com" = ["10 mx1.provider.com.", "20 mx2.provider.com."]
   # }
 }
+
+variable "txt_record_sets" {
+  description = <<-DESC
+    Map of subdomain to the full list of TXT records at that name.
+
+    `txt_records` takes one string per name and cannot express the common case
+    of a domain needing several: an ownership proof for a hosting provider and
+    an SPF policy, for instance, are two separate TXT records at the same name.
+    They cannot be folded into one — a TXT record made of two character-strings
+    is concatenated by resolvers into a single value, which breaks both.
+
+    A name must appear in this map or in `txt_records`, never both: they would
+    be two Terraform resources managing one record set.
+  DESC
+  type        = map(list(string))
+  default     = {}
+
+  # Example:
+  # {
+  #   "example.com" = ["\"hosting-site=example\"", "\"v=spf1 include:_spf.provider.com ~all\""]
+  # }
+}
